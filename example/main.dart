@@ -17,10 +17,7 @@ Future<void> main() async {
 }
 
 Response _streamedResponse(Request request) {
-  NdjsonStream stream = NdjsonStream(
-    200,
-    initialMessage: {'counter': 0},
-  );
+  NdjsonStream stream = NdjsonStream(initialMessage: {'counter': 0});
   _doStuffWithStream(stream);
   return stream.response;
 }
