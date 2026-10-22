@@ -10,29 +10,36 @@ import 'package:shelf/shelf.dart';
 class NdjsonStream {
   /// A HTTP status code. Defaults to 200. Probably 200.
   final int statusCode;
+  final StreamController<List<int>> _controller;
+  final Response response;
 
-  NdjsonStream({
-    this.statusCode = 200,
+  NdjsonStream._(this.statusCode, this._controller, this.response);
+
+  factory NdjsonStream({
+    int statusCode = 200,
     Map<String, Object>? headers,
     Map<String, Object>? context,
     Map<String, dynamic>? initialMessage,
   }) {
-    _controller = StreamController();
-    headers ??= {};
-    headers['content-type'] = 'application/x-ndjson';
-    context ??= {};
-    context['shelf.io.buffer_output'] = false;
-    response = Response(
+    final controller = StreamController<List<int>>();
+    final response = Response(
       statusCode,
-      body: _controller.stream,
-      headers: headers,
-      context: context,
+      body: controller.stream,
+      headers: {
+        ...?headers,
+        'content-type': 'application/x-ndjson',
+      },
+      context: {
+        ...?context,
+        'shelf.io.buffer_output': false,
+      },
     );
-    if (initialMessage != null) add(initialMessage);
-  }
 
-  late StreamController<List<int>> _controller;
-  late Response response;
+    final stream = NdjsonStream._(statusCode, controller, response);
+    if (initialMessage != null) stream.add(initialMessage);
+
+    return stream;
+  }
 
   /// Adds a message to the stream, which will be sent to the client through [response].
   void add(Map<String, dynamic> json) {
@@ -41,5 +48,5 @@ class NdjsonStream {
   }
 
   /// Closes the stream, and consequently the connection to the client.
-  void close() => _controller.close();
+  Future<void> close() async => await _controller.close();
 }
