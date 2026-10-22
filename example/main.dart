@@ -5,7 +5,9 @@ import 'package:shelf/shelf_io.dart' as shelf_io;
 import 'package:shelf_ndjson_stream/shelf_ndjson_stream.dart';
 
 Future<void> main() async {
-  final handler = const Pipeline().addMiddleware(logRequests()).addHandler(_streamedResponse);
+  final handler = const Pipeline()
+      .addMiddleware(logRequests())
+      .addHandler(_streamedResponse);
 
   final server = await shelf_io.serve(
     handler,
