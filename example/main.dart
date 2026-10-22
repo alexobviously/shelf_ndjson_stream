@@ -4,6 +4,8 @@ import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart' as shelf_io;
 import 'package:shelf_ndjson_stream/shelf_ndjson_stream.dart';
 
+// `curl http://0.0.0.0:8080` after you've run it.
+
 Future<void> main() async {
   final handler = const Pipeline()
       .addMiddleware(logRequests())
@@ -27,7 +29,7 @@ Response _streamedResponse(Request request) {
 void _doStuffWithStream(NdjsonStream stream) async {
   for (int i = 1; i <= 20; i++) {
     stream.add({'counter': i});
-    await Future.delayed(const Duration(milliseconds: 200));
+    await Future.pause(const Duration(milliseconds: 200));
   }
   stream.close();
 }

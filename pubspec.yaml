@@ -1,7 +1,10 @@
 name: shelf_ndjson_stream
 description: A wrapper for easily streaming ndjson responses from a shelf server.
-version: 0.1.0
-homepage: https://github.com/alexobviously/shelf_ndjson_stream
+version: 1.0.0
+repository: https://github.com/alexobviously/shelf_ndjson_stream
+topics:
+  - shelf
+  - ndjson
 
 environment:
   sdk: ^3.13.4
