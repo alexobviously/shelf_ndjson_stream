@@ -27,7 +27,7 @@ Response _streamedResponse(Request request) {
 void _doStuffWithStream(NdjsonStream stream) async {
   for (int i = 1; i <= 20; i++) {
     stream.add({'counter': i});
-    await Future.delayed(Duration(milliseconds: 200));
+    await Future.delayed(const Duration(milliseconds: 200));
   }
   stream.close();
 }

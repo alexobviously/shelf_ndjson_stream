@@ -48,5 +48,8 @@ class NdjsonStream {
   }
 
   /// Closes the stream, and consequently the connection to the client.
-  Future<void> close() async => await _controller.close();
+  void close() => _controller.close();
+
+  /// Whether the stream has finished closing.
+  Future<void> get done async => await _controller.done;
 }
