@@ -37,8 +37,7 @@ class NdjsonStream {
   /// Adds a message to the stream, which will be sent to the client through [response].
   void add(Map<String, dynamic> json) {
     String str = jsonEncode(json);
-    List<int> charCodes = [...str.codeUnits, 10];
-    _controller.add(charCodes);
+    _controller.add(utf8.encode('$str\n'));
   }
 
   /// Closes the stream, and consequently the connection to the client.
